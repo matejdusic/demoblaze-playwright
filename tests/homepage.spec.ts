@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { HomePage } from "../pages/HomePage";
 
 test.describe("Homepage", () => {
   test.beforeEach(async ({ page }) => {
@@ -6,6 +7,8 @@ test.describe("Homepage", () => {
   });
 
   test("homepage loads correctly", async ({ page }) => {
+    const homePage = new HomePage(page);
+    await homePage.navigate();
     await expect(page).toHaveURL(/demoblaze/);
   });
 
