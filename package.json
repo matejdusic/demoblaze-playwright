@@ -1,0 +1,23 @@
+{
+  "name": "demoblaze-playwright",
+  "version": "1.0.0",
+  "description": "Learning Playwright on Demoblaze",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matejdusic/demoblaze-playwright.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/matejdusic/demoblaze-playwright/issues"
+  },
+  "homepage": "https://github.com/matejdusic/demoblaze-playwright#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@types/node": "^25.3.3"
+  }
+}
