@@ -14,30 +14,24 @@ test.describe("Homepage", () => {
 
   //navbar
   test("navbar elements are visible", async ({ page }) => {
-    await expect(
-      page.getByRole("link", { name: "PRODUCT STORE" }),
-    ).toBeVisible();
-    await expect(page.locator("#navbarExample")).toBeVisible();
-    await expect(
-      page.getByRole("link", { name: "Home (current)" }),
-    ).toBeVisible();
-    await expect(page.getByRole("link", { name: "Contact" })).toBeVisible();
-    await expect(page.getByRole("link", { name: "About us" })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Cart" })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Log in" })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Sign up" })).toBeVisible();
+    const homePage = new HomePage(page);
+    await expect(homePage.navbar()).toBeVisible();
+    await expect(homePage.navbarLink("PRODUCT STORE")).toBeVisible();
+    await expect(homePage.navbarLink("Home (current)")).toBeVisible();
+    await expect(homePage.navbarLink("Contact")).toBeVisible();
+    await expect(homePage.navbarLink("About us")).toBeVisible();
+    await expect(homePage.navbarLink("Cart")).toBeVisible();
+    await expect(homePage.navbarLink("Log in")).toBeVisible();
+    await expect(homePage.navbarLink("Sign up")).toBeVisible();
   });
 
   //footer
   test("footer is visible", async ({ page }) => {
-    await expect(page.locator("#footc")).toBeVisible();
-    await expect(page.getByRole("heading", { name: "About Us" })).toBeVisible();
-    await expect(
-      page.getByRole("heading", { name: "Get in Touch" }),
-    ).toBeVisible();
-    await expect(
-      page.getByRole("heading", { name: "PRODUCT STORE" }),
-    ).toBeVisible();
+    const homePage = new HomePage(page);
+    await expect(homePage.footer()).toBeVisible();
+    await expect(homePage.footerHeading("About Us")).toBeVisible();
+    await expect(homePage.footerHeading("Get in Touch")).toBeVisible();
+    await expect(homePage.footerHeading("PRODUCT STORE")).toBeVisible();
   });
 
   //categories and products
