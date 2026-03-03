@@ -35,4 +35,28 @@ export class HomePage {
   async clickCategory(name: string) {
     await this.categoryLink(name).click();
   }
+
+  // Product grid locators
+  productCards() {
+    return this.page.locator("#tbodyid a.hrefch");
+  }
+  firstProductCard() {
+    return this.productCards().first();
+  }
+
+  // Pagination locators
+  nextButton() {
+    return this.page.locator("#next2");
+  }
+  prevButton() {
+    return this.page.locator("#prev2");
+  }
+
+  // Pagination actions
+  async goToNextPage() {
+    await this.nextButton().click();
+  }
+  async goToPreviousPage() {
+    await this.prevButton().click();
+  }
 }

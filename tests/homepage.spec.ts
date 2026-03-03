@@ -42,13 +42,13 @@ test.describe("Homepage", () => {
 
   //product grid item visibility
   test("product grid items are visible", async ({ page }) => {
-    await expect(page.locator("#tbodyid a.hrefch").first()).toBeVisible();
-    await expect(page.locator("#prev2")).toBeVisible();
-    await expect(page.locator("#next2")).toBeVisible();
-    await page.locator("#next2").click();
+    await expect(homePage.firstProductCard()).toBeVisible();
+    await expect(homePage.prevButton()).toBeVisible();
+    await expect(homePage.nextButton()).toBeVisible();
+    await homePage.goToNextPage();
     //next page product visibility
-    await expect(page.locator("#tbodyid a.hrefch").first()).toBeVisible();
-    await expect(page.locator("#prev2")).toBeVisible();
+    await expect(homePage.firstProductCard()).toBeVisible();
+    await expect(homePage.prevButton()).toBeVisible();
   });
 
   //phones category products visibility
