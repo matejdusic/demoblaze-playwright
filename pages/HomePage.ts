@@ -1,4 +1,4 @@
-import { Page } from '@playwright/test';
+import { Page } from "@playwright/test";
 
 export class HomePage {
   readonly page: Page;
@@ -8,22 +8,31 @@ export class HomePage {
   }
 
   async navigate() {
-    await this.page.goto('/');
+    await this.page.goto("/");
   }
 
   // Navbar locators
   navbar() {
-    return this.page.locator('#navbarExample');
+    return this.page.locator("#navbarExample");
   }
   navbarLink(name: string) {
-    return this.page.getByRole('link', { name });
+    return this.page.getByRole("link", { name });
   }
 
   // Footer locators
   footer() {
-    return this.page.locator('#footc');
+    return this.page.locator("#footc");
   }
   footerHeading(name: string) {
-    return this.page.getByRole('heading', { name });
+    return this.page.getByRole("heading", { name });
+  }
+
+  // Category locators
+  categoryLink(name: string) {
+    return this.page.getByRole("link", { name });
+  }
+  // Click category method
+  async clickCategory(name: string) {
+    await this.categoryLink(name).click();
   }
 }
