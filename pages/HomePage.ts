@@ -1,34 +1,32 @@
-import { Page } from "@playwright/test";
+import { expect, type Locator, type Page } from "@playwright/test";
 
 export class HomePage {
   readonly page: Page;
+  readonly navbar: Locator;
+  readonly footer: Locator;
 
   constructor(page: Page) {
     this.page = page;
+    this.navbar = this.page.locator("#navbarExample");
+    this.footer = this.page.locator("#footc");
   }
 
-  async navigate() {
+  async goto() {
     await this.page.goto("/");
   }
 
   // Navbar locators
-  navbar() {
-    return this.page.locator("#navbarExample");
-  }
-  navbarLink(name: string) {
+  navbarLink(name: string): Locator {
     return this.page.getByRole("link", { name });
   }
 
   // Footer locators
-  footer() {
-    return this.page.locator("#footc");
-  }
-  footerHeading(name: string) {
+  footerHeading(name: string): Locator {
     return this.page.getByRole("heading", { name });
   }
 
   // Category locators
-  categoryLink(name: string) {
+  categoryLink(name: string): Locator {
     return this.page.getByRole("link", { name });
   }
   // Click category method
@@ -37,18 +35,18 @@ export class HomePage {
   }
 
   // Product grid locators
-  productCards() {
+  productCards(): Locator {
     return this.page.locator("#tbodyid a.hrefch");
   }
-  firstProductCard() {
+  firstProductCard(): Locator {
     return this.productCards().first();
   }
 
   // Pagination locators
-  nextButton() {
+  nextButton(): Locator {
     return this.page.locator("#next2");
   }
-  prevButton() {
+  prevButton(): Locator {
     return this.page.locator("#prev2");
   }
 
