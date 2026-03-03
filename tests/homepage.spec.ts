@@ -2,19 +2,19 @@ import { test, expect } from "@playwright/test";
 import { HomePage } from "../pages/HomePage";
 
 test.describe("Homepage", () => {
+  let homePage: HomePage;
+
   test.beforeEach(async ({ page }) => {
-    await page.goto("/");
+    homePage = new HomePage(page);
+    await homePage.navigate();
   });
 
   test("homepage loads correctly", async ({ page }) => {
-    const homePage = new HomePage(page);
-    await homePage.navigate();
     await expect(page).toHaveURL(/demoblaze/);
   });
 
   //navbar
   test("navbar elements are visible", async ({ page }) => {
-    const homePage = new HomePage(page);
     await expect(homePage.navbar()).toBeVisible();
     await expect(homePage.navbarLink("PRODUCT STORE")).toBeVisible();
     await expect(homePage.navbarLink("Home (current)")).toBeVisible();
@@ -27,7 +27,6 @@ test.describe("Homepage", () => {
 
   //footer
   test("footer is visible", async ({ page }) => {
-    const homePage = new HomePage(page);
     await expect(homePage.footer()).toBeVisible();
     await expect(homePage.footerHeading("About Us")).toBeVisible();
     await expect(homePage.footerHeading("Get in Touch")).toBeVisible();
