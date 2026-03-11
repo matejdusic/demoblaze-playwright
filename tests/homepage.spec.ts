@@ -58,32 +58,28 @@ test.describe("Homepage", () => {
   test("phones category products are visible", async ({ page }) => {
     const homePage = new HomePage(page);
     await homePage.clickCategory("Phones");
-    await expect(
-      page.getByRole("link", { name: "Samsung galaxy s6" }),
-    ).toBeVisible();
+    await homePage.openProductDetails("Samsung galaxy s6");
   });
 
   //laptops category products visibility
   test("laptops category products are visible", async ({ page }) => {
     const homePage = new HomePage(page);
     await homePage.clickCategory("Laptops");
-    await expect(page.getByRole("link", { name: "MacBook air" })).toBeVisible();
+    await homePage.openProductDetails("MacBook air");
   });
 
   //monitors category products visibility
   test("monitors category products are visible", async ({ page }) => {
     const homePage = new HomePage(page);
     await homePage.clickCategory("Monitors");
-    await expect(
-      page.getByRole("link", { name: "Apple monitor 24" }),
-    ).toBeVisible();
+    await homePage.openProductDetails("Apple monitor 24");
   });
 
   //product details
   test("product details are visible", async ({ page }) => {
     const homePage = new HomePage(page);
     await homePage.clickCategory("Phones");
-    await page.getByRole("link", { name: "Samsung galaxy s6" }).click();
+    await homePage.openProductDetails("Samsung galaxy s6");
     await expect
       .soft(page.getByRole("heading", { name: "Samsung galaxy s6" }))
       .toBeVisible();

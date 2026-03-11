@@ -4,11 +4,13 @@ export class HomePage {
   readonly page: Page;
   readonly navbar: Locator;
   readonly footer: Locator;
+  readonly productGrid: Locator;
 
   constructor(page: Page) {
     this.page = page;
     this.navbar = this.page.locator("#navbarExample");
     this.footer = this.page.locator("#footc");
+    this.productGrid = this.page.locator("#tbodyid");
   }
 
   async goto() {
@@ -40,6 +42,14 @@ export class HomePage {
   }
   firstProductCard(): Locator {
     return this.productCards().first();
+  }
+  productCardByName(name: string): Locator {
+    return this.productGrid.getByRole("link", { name });
+  }
+
+  // Open product details method
+  async openProductDetails(name: string) {
+    await this.productCardByName(name).click();
   }
 
   // Pagination locators
