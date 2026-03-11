@@ -1,6 +1,7 @@
 import { test as base, expect } from "@playwright/test";
 import { HomePage } from "../pages/HomePage";
 
+// fixture for homepage tests
 const test = base.extend<{ homePage: HomePage }>({
   homePage: async ({ page }, use) => {
     const homePage = new HomePage(page);
