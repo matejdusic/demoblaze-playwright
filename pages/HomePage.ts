@@ -67,4 +67,29 @@ export class HomePage {
   async goToPreviousPage() {
     await this.prevButton().click();
   }
+
+  // Contact modal actions
+  async openContactModal() {
+    await this.navbarLink("Contact").click();
+  }
+
+  // About us modal actions
+  async openAboutUsModal() {
+    await this.navbarLink("About us").click();
+  }
+
+  // Cart page navigation
+  async goToCart() {
+    await this.navbarLink("Cart").click();
+  }
+
+  // Login modal actions
+  async openLoginModal() {
+    await this.navbarLink("Log in").click();
+  }
+
+  // Sign up modal actions
+  async openSignUpModal() {
+    await this.navbarLink("Sign up").click();
+  }
 }

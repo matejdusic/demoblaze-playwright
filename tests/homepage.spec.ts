@@ -106,7 +106,7 @@ test.describe("Homepage", () => {
 
   //contact form
   test("contact form is visible", async ({ homePage }) => {
-    await homePage.page.getByRole("link", { name: "Contact" }).click();
+    await homePage.openContactModal();
     await expect
       .soft(homePage.page.getByRole("heading", { name: "New message" }))
       .toBeVisible();
@@ -136,7 +136,7 @@ test.describe("Homepage", () => {
 
   //about us
   test("about us modal is visible", async ({ homePage }) => {
-    await homePage.page.getByRole("link", { name: "About us" }).click();
+    await homePage.openAboutUsModal();
     await expect
       .soft(
         homePage.page.getByRole("heading", { name: "About us", exact: true }),
@@ -161,7 +161,7 @@ test.describe("Homepage", () => {
 
   //cart
   test("cart is visible", async ({ homePage }) => {
-    await homePage.page.getByRole("link", { name: "Cart" }).click();
+    await homePage.goToCart();
     await expect
       .soft(homePage.page)
       .toHaveURL("https://www.demoblaze.com/cart.html");
@@ -190,7 +190,7 @@ test.describe("Homepage", () => {
 
   //login
   test("login modal is visible", async ({ homePage }) => {
-    await homePage.page.getByRole("link", { name: "Log in" }).click();
+    await homePage.openLoginModal();
     await expect
       .soft(homePage.page.getByRole("heading", { name: "Log in" }))
       .toBeVisible();
@@ -209,7 +209,7 @@ test.describe("Homepage", () => {
 
   //signup
   test("signup modal is visible", async ({ homePage }) => {
-    await homePage.page.getByRole("link", { name: "Sign up" }).click();
+    await homePage.openSignUpModal();
     await expect
       .soft(homePage.page.getByRole("heading", { name: "Sign up" }))
       .toBeVisible();
