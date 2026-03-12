@@ -33,15 +33,18 @@ test.describe("Contact Modal", () => {
   test("contact form validation", async ({ homePage, contactPage, page }) => {
     await homePage.goto();
     await contactPage.open();
-    await page.locator("#recipient-email").fill("test@testimus.com");
+    await page.locator('#recipient-email').fill("test@testimus.com");
     await page
-      .getByRole("textbox", { name: "Contact Email: Contact Name:" })
+      .getByRole('textbox', { name: 'Contact Email: Contact Name:' })
       .fill("Test User");
     await page
-      .getByRole("textbox", { name: "Message:" })
+      .getByRole('textbox', { name: 'Message:' })
       .fill("This is a test message.");
-    await page.getByRole("button", { name: "Send message" }).click();
-    await expect(homePage.page).toHaveURL(/demoblaze/);
+    page.on("dialog", async (dialog) => {
+      expect(dialog.message()).toContain("Thanks for the message!!");
+      await dialog.accept();
+    });
+    await page.getByRole('button', { name: 'Send message' }).click();
   });
 
   test("close button functionality", async ({
