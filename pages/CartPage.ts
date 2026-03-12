@@ -1,4 +1,4 @@
-import { type Page } from "@playwright/test";
+import { Locator, type Page } from "@playwright/test";
 
 export class CartPage {
   readonly page: Page;
@@ -7,7 +7,11 @@ export class CartPage {
     this.page = page;
   }
 
+  productInCart(name: string): Locator {
+    return this.page.getByRole("cell", { name });
+  }
+
   async open() {
-    await this.page.getByRole("link", { name: "Cart" }).click();
+    await this.page.getByRole("link", { name: "Cart", exact: true }).click();
   }
 }

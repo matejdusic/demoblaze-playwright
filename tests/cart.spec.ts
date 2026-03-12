@@ -1,11 +1,30 @@
 import { test, expect } from "../fixtures/pageFixtures";
+import { HomePage } from "../pages/HomePage";
+
+async function addProductToCart(homePage: HomePage, name: string) {
+  await homePage.openProductDetails(name);
+  homePage.page.on("dialog", async (dialog) => {
+    expect(dialog.message()).toContain("Product added.");
+    await dialog.accept();
+  });
+  await homePage.page.getByRole("link", { name: "Add to cart" }).click();
+}
 
 test.describe("Cart Page", () => {
   //cart
-  test("cart is visible", async ({ homePage, cartPage, page }) => {
+  test("cart URL verification", async ({ homePage, cartPage, page }) => {
     await homePage.goto();
     await cartPage.open();
-    await expect.soft(page).toHaveURL("https://www.demoblaze.com/cart.html");
+    await expect(page).toHaveURL("https://www.demoblaze.com/cart.html");
+  });
+
+  test("Cart page elements visibility", async ({
+    homePage,
+    cartPage,
+    page,
+  }) => {
+    await homePage.goto();
+    await cartPage.open();
     await expect
       .soft(page.getByRole("heading", { name: "Products" }))
       .toBeVisible();
@@ -27,5 +46,27 @@ test.describe("Cart Page", () => {
     await expect(
       page.getByRole("button", { name: "Place Order" }),
     ).toBeVisible();
+  });
+
+  test("Adding product to cart and verifying it appears in cart", async ({
+    homePage,
+    cartPage,
+  }) => {
+    await homePage.goto();
+    await addProductToCart(homePage, "Samsung galaxy s6");
+    await cartPage.open();
+    await expect(cartPage.productInCart("Samsung galaxy s6")).toBeVisible();
+  });
+
+  test("Removing product from cart and verifying it is removed", async ({
+    homePage,
+    cartPage,
+  }) => {
+    await homePage.goto();
+    await addProductToCart(homePage, "Samsung galaxy s6");
+    await cartPage.open();
+    await expect(cartPage.productInCart("Samsung galaxy s6")).toBeVisible();
+    await homePage.page.getByRole("link", { name: "Delete" }).click();
+    await expect(cartPage.productInCart("Samsung galaxy s6")).not.toBeVisible();
   });
 });
