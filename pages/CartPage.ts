@@ -12,6 +12,12 @@ export class CartPage {
   }
 
   async open() {
+    const cartLoaded = this.page.waitForResponse(
+      (response) =>
+        response.url() === "https://api.demoblaze.com/viewcart" &&
+        response.status() === 200,
+    );
     await this.page.getByRole("link", { name: "Cart", exact: true }).click();
+    await cartLoaded;
   }
 }
