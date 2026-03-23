@@ -57,7 +57,7 @@ test.describe("Cart Page", () => {
     await addProductToCart(homePage, "Samsung galaxy s6");
     await cartPage.open();
     await expect(cartPage.productInCart("Samsung galaxy s6")).toBeVisible();
-    await homePage.page.getByRole("link", { name: "Delete" }).click();
+    await cartPage.deleteProduct("Samsung galaxy s6");
     await expect(cartPage.productInCart("Samsung galaxy s6")).not.toBeVisible();
   });
 });

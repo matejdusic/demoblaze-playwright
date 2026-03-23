@@ -1,7 +1,7 @@
 import { Locator, type Page } from "@playwright/test";
 
 export class CartPage {
-  readonly page: Page;
+  private readonly page: Page;
 
   constructor(page: Page) {
     this.page = page;
@@ -9,6 +9,18 @@ export class CartPage {
 
   productInCart(name: string): Locator {
     return this.page.getByRole("cell", { name });
+  }
+
+  cartRowByProductName(name: string): Locator {
+    return this.page.locator("tr", {
+      has: this.page.getByRole("cell", { name }),
+    });
+  }
+
+  async deleteProduct(name: string) {
+    await this.cartRowByProductName(name)
+      .getByRole("link", { name: "Delete" })
+      .click();
   }
 
   async open() {

@@ -1,9 +1,9 @@
 import { test, expect } from "../fixtures/pageFixtures";
 
 test.describe("Homepage", () => {
-  test("homepage loads correctly", async ({ homePage }) => {
+  test("homepage loads correctly", async ({ page, homePage }) => {
     await homePage.goto();
-    await expect(homePage.page).toHaveURL(/demoblaze/);
+    await expect(page).toHaveURL(/demoblaze/);
   });
 
   //navbar
@@ -53,9 +53,7 @@ test.describe("Homepage", () => {
     await homePage.goto();
     await homePage.clickCategory("Phones");
     await homePage.openProductDetails("Samsung galaxy s6");
-    await expect(
-      homePage.page.getByRole("heading", { name: "Samsung galaxy s6" }),
-    ).toBeVisible();
+    await expect(homePage.heading("Samsung galaxy s6")).toBeVisible();
   });
 
   //laptops category products visibility
@@ -63,9 +61,7 @@ test.describe("Homepage", () => {
     await homePage.goto();
     await homePage.clickCategory("Laptops");
     await homePage.openProductDetails("MacBook air");
-    await expect(
-      homePage.page.getByRole("heading", { name: "MacBook air" }),
-    ).toBeVisible();
+    await expect(homePage.heading("MacBook air")).toBeVisible();
   });
 
   //monitors category products visibility
@@ -73,9 +69,7 @@ test.describe("Homepage", () => {
     await homePage.goto();
     await homePage.clickCategory("Monitors");
     await homePage.openProductDetails("Apple monitor 24");
-    await expect(
-      homePage.page.getByRole("heading", { name: "Apple monitor 24" }),
-    ).toBeVisible();
+    await expect(homePage.heading("Apple monitor 24")).toBeVisible();
   });
 
   //product details
@@ -83,34 +77,16 @@ test.describe("Homepage", () => {
     await homePage.goto();
     await homePage.clickCategory("Phones");
     await homePage.openProductDetails("Samsung galaxy s6");
-    await expect
-      .soft(homePage.page.getByRole("heading", { name: "Samsung galaxy s6" }))
-      .toBeVisible();
-    await expect
-      .soft(homePage.page.getByRole("heading", { name: "$360 *includes tax" }))
-      .toBeVisible();
-    await expect(
-      homePage.page.getByRole("link", { name: "Add to cart" }),
-    ).toBeVisible();
+    await expect.soft(homePage.heading("Samsung galaxy s6")).toBeVisible();
+    await expect.soft(homePage.heading("$360 *includes tax")).toBeVisible();
+    await expect(homePage.addToCartLink()).toBeVisible();
   });
 
   //carousel
   test("carousel is visible", async ({ homePage }) => {
     await homePage.goto();
-    await expect
-      .soft(homePage.page.getByRole("img", { name: "First slide" }))
-      .toBeVisible();
-    await expect
-      .soft(
-        homePage.page
-          .locator("#carouselExampleIndicators")
-          .getByRole("button", { name: "Next" }),
-      )
-      .toBeVisible();
-    await expect(
-      homePage.page
-        .locator("#carouselExampleIndicators")
-        .getByRole("button", { name: "Previous" }),
-    ).toBeVisible();
+    await expect.soft(homePage.carouselImage("First slide")).toBeVisible();
+    await expect.soft(homePage.carouselButton("Next")).toBeVisible();
+    await expect(homePage.carouselButton("Previous")).toBeVisible();
   });
 });

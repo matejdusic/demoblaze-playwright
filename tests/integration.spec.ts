@@ -2,8 +2,8 @@ import { test, expect } from "../fixtures/pageFixtures";
 import { addProductToCart } from "../utils/cartHelpers";
 
 test.describe("Integration Tests", () => {
-  test("products API returns data", async ({ homePage }) => {
-    const responsePromise = homePage.page.waitForResponse(
+  test("products API returns data", async ({ page, homePage }) => {
+    const responsePromise = page.waitForResponse(
       (res) => res.url().includes("/entries") && res.status() === 200,
     );
 
@@ -15,16 +15,17 @@ test.describe("Integration Tests", () => {
     expect(data.Items.length).toBeGreaterThan(0);
   });
 
-  test("product details API returns correct data", async ({ homePage }) => {
+  test("product details API returns correct data", async ({
+    page,
+    homePage,
+  }) => {
     await homePage.goto();
 
-    const responsePromise = homePage.page.waitForResponse((res) =>
-      res.url().includes("/view"),
+    const responsePromise = page.waitForResponse(
+      (res) => res.url().includes("/view") && res.status() === 200,
     );
 
-    await homePage.page
-      .getByRole("link", { name: "Samsung galaxy s6" })
-      .click();
+    await homePage.openProductDetails("Samsung galaxy s6");
 
     const response = await responsePromise;
     const data = await response.json();
@@ -32,37 +33,33 @@ test.describe("Integration Tests", () => {
     expect(data.title).toContain("Samsung");
   });
 
-  test("add to cart request", async ({ homePage }) => {
+  test("add to cart request", async ({ page, homePage }) => {
     await homePage.goto();
+    await homePage.openProductDetails("Samsung galaxy s6");
 
-    await homePage.page
-      .getByRole("link", { name: "Samsung galaxy s6" })
-      .click();
-
-    const requestPromise = homePage.page.waitForRequest((req) =>
+    const requestPromise = page.waitForRequest((req) =>
       req.url().includes("/addtocart"),
     );
 
-    homePage.page.on("dialog", (dialog) => dialog.accept());
-    await homePage.page.getByRole("link", { name: "Add to cart" }).click();
+    await homePage.addToCart();
 
     const request = await requestPromise;
-
     expect(request.method()).toBe("POST");
   });
 
-  test("delete from cart request", async ({ homePage, cartPage }) => {
+  test("delete from cart request", async ({ page, homePage, cartPage }) => {
+    const productName = "Samsung galaxy s6";
+
     await homePage.goto();
-    await addProductToCart(homePage, "Samsung galaxy s6");
+    await addProductToCart(homePage, productName);
     await cartPage.open();
-    const deleteRequestPromise = homePage.page.waitForRequest((req) =>
+    const deleteRequestPromise = page.waitForRequest((req) =>
       req.url().includes("/deleteitem"),
     );
 
-    await homePage.page.getByRole("link", { name: "Delete" }).click();
+    await cartPage.deleteProduct(productName);
 
     const deleteRequest = await deleteRequestPromise;
-
     expect(deleteRequest.method()).toBe("POST");
   });
 });

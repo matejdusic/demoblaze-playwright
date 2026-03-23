@@ -1,7 +1,7 @@
-import { expect, type Locator, type Page } from "@playwright/test";
+import { type Locator, type Page } from "@playwright/test";
 
 export class HomePage {
-  readonly page: Page;
+  private readonly page: Page;
   readonly navbar: Locator;
   readonly footer: Locator;
   readonly productGrid: Locator;
@@ -51,6 +51,35 @@ export class HomePage {
   async openProductDetails(name: string) {
     await this.productCardByName(name).click();
   }
+
+  // Add current product to cart
+  addToCartLink(): Locator {
+    return this.page.getByRole("link", { name: "Add to cart" });
+  }
+  async addToCart() {
+    const dialogPromise = this.page.waitForEvent("dialog");
+    await this.addToCartLink().click();
+    const dialog = await dialogPromise;
+    await dialog.accept();
+  }
+
+  // heading locator
+  heading(name: string): Locator {
+    return this.page.getByRole("heading", { name });
+  }
+
+  // Carousel locators
+  carousel(): Locator {
+  return this.page.locator("#carouselExampleIndicators");
+}
+
+carouselImage(name: string): Locator {
+  return this.page.getByRole("img", { name });
+}
+
+carouselButton(name: "Next" | "Previous"): Locator {
+  return this.carousel().getByRole("button", { name });
+}
 
   // Pagination locators
   nextButton(): Locator {

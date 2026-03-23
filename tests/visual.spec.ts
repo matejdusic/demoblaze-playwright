@@ -22,20 +22,20 @@ test.describe("Visual Regression", () => {
       );
     });
 
-    test("full page matches snapshot", async ({ homePage }) => {
+    test("full page matches snapshot", async ({ page, homePage }) => {
       await homePage.goto();
       await homePage.firstProductCard().waitFor();
-      await expect(homePage.page).toHaveScreenshot("homepage-full.png", {
+      await expect(page).toHaveScreenshot("homepage-full.png", {
         fullPage: true,
       });
     });
   });
 
   test.describe("Cart Page", () => {
-    test("empty cart matches snapshot", async ({ homePage, cartPage }) => {
+    test("empty cart matches snapshot", async ({ page, homePage, cartPage }) => {
       await homePage.goto();
       await cartPage.open();
-      await expect(cartPage.page).toHaveScreenshot("cart-empty.png", {
+      await expect(page).toHaveScreenshot("cart-empty.png", {
         fullPage: true,
       });
     });
