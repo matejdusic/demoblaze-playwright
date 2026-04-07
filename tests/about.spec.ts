@@ -32,7 +32,7 @@ test.describe("About Us Modal", () => {
   test("Play button is visible", async ({ homePage, aboutPage, page }) => {
     await homePage.goto();
     await aboutPage.open();
-    await expect(aboutPage.playButton()).toBeVisible();
+    await expect(aboutPage.playButton).toBeVisible();
   });
 
   test("close button functionality", async ({ homePage, aboutPage, page }) => {
@@ -63,9 +63,9 @@ test.describe("About Us Modal", () => {
   test("video player functionality", async ({ homePage, aboutPage, page }) => {
     await homePage.goto();
     await aboutPage.open();
-    await aboutPage.playButton().click();
+    await aboutPage.playButton.click();
     // Wait for the video to start playing by checking if the play button is hidden
-    await expect(aboutPage.playButton()).toBeHidden();
+    await expect(aboutPage.playButton).toBeHidden();
     await expect(page.locator("#example-video_html5_api")).toBeVisible();
   });
 });

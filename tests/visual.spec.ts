@@ -4,19 +4,19 @@ test.describe("Visual Regression", () => {
   test.describe("Homepage", () => {
     test("navbar matches snapshot", async ({ homePage }) => {
       await homePage.goto();
-      await homePage.firstProductCard().waitFor();
+      await homePage.firstProductCard.waitFor();
       await expect(homePage.navbar).toHaveScreenshot("homepage-navbar.png");
     });
 
     test("footer matches snapshot", async ({ homePage }) => {
       await homePage.goto();
-      await homePage.firstProductCard().waitFor();
+      await homePage.firstProductCard.waitFor();
       await expect(homePage.footer).toHaveScreenshot("homepage-footer.png");
     });
 
     test("product grid matches snapshot", async ({ homePage }) => {
       await homePage.goto();
-      await homePage.firstProductCard().waitFor();
+      await homePage.firstProductCard.waitFor();
       await expect(homePage.productGrid).toHaveScreenshot(
         "homepage-product-grid.png",
       );
@@ -24,7 +24,7 @@ test.describe("Visual Regression", () => {
 
     test("full page matches snapshot", async ({ page, homePage }) => {
       await homePage.goto();
-      await homePage.firstProductCard().waitFor();
+      await homePage.firstProductCard.waitFor();
       await expect(page).toHaveScreenshot("homepage-full.png", {
         fullPage: true,
       });

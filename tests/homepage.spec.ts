@@ -39,13 +39,13 @@ test.describe("Homepage", () => {
   //product grid item visibility
   test("product grid items are visible", async ({ homePage }) => {
     await homePage.goto();
-    await expect.soft(homePage.firstProductCard()).toBeVisible();
-    await expect.soft(homePage.prevButton()).toBeVisible();
-    await expect.soft(homePage.nextButton()).toBeVisible();
+    await expect.soft(homePage.firstProductCard).toBeVisible();
+    await expect.soft(homePage.prevButton).toBeVisible();
+    await expect.soft(homePage.nextButton).toBeVisible();
     await homePage.goToNextPage();
     //next page product visibility
-    await expect.soft(homePage.firstProductCard()).toBeVisible();
-    await expect(homePage.prevButton()).toBeVisible();
+    await expect.soft(homePage.firstProductCard).toBeVisible();
+    await expect(homePage.prevButton).toBeVisible();
   });
 
   //phones category products visibility
@@ -79,7 +79,7 @@ test.describe("Homepage", () => {
     await homePage.openProductDetails("Samsung galaxy s6");
     await expect.soft(homePage.heading("Samsung galaxy s6")).toBeVisible();
     await expect.soft(homePage.heading("$360 *includes tax")).toBeVisible();
-    await expect(homePage.addToCartLink()).toBeVisible();
+    await expect(homePage.addToCartLink).toBeVisible();
   });
 
   //carousel

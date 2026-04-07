@@ -5,12 +5,24 @@ export class HomePage {
   readonly navbar: Locator;
   readonly footer: Locator;
   readonly productGrid: Locator;
+  readonly addToCartLink: Locator;
+  readonly carousel: Locator;
+  readonly nextButton: Locator;
+  readonly prevButton: Locator;
+  readonly productCards: Locator;
+  readonly firstProductCard: Locator;
 
   constructor(page: Page) {
     this.page = page;
     this.navbar = this.page.locator("#navbarExample");
     this.footer = this.page.locator("#footc");
     this.productGrid = this.page.locator("#tbodyid");
+    this.addToCartLink = this.page.getByRole("link", { name: "Add to cart" });
+    this.carousel = this.page.locator("#carouselExampleIndicators");
+    this.nextButton = this.page.locator("#next2");
+    this.prevButton = this.page.locator("#prev2");
+    this.productCards = this.page.locator("#tbodyid a.hrefch");
+    this.firstProductCard = this.productCards.first();
   }
 
   async goto() {
@@ -37,12 +49,6 @@ export class HomePage {
   }
 
   // Product grid locators
-  productCards(): Locator {
-    return this.page.locator("#tbodyid a.hrefch");
-  }
-  firstProductCard(): Locator {
-    return this.productCards().first();
-  }
   productCardByName(name: string): Locator {
     return this.productGrid.getByRole("link", { name });
   }
@@ -53,12 +59,9 @@ export class HomePage {
   }
 
   // Add current product to cart
-  addToCartLink(): Locator {
-    return this.page.getByRole("link", { name: "Add to cart" });
-  }
   async addToCart() {
     const dialogPromise = this.page.waitForEvent("dialog");
-    await this.addToCartLink().click();
+    await this.addToCartLink.click();
     const dialog = await dialogPromise;
     await dialog.accept();
   }
@@ -69,31 +72,20 @@ export class HomePage {
   }
 
   // Carousel locators
-  carousel(): Locator {
-  return this.page.locator("#carouselExampleIndicators");
-}
 
-carouselImage(name: string): Locator {
-  return this.page.getByRole("img", { name });
-}
-
-carouselButton(name: "Next" | "Previous"): Locator {
-  return this.carousel().getByRole("button", { name });
-}
-
-  // Pagination locators
-  nextButton(): Locator {
-    return this.page.locator("#next2");
+  carouselImage(name: string): Locator {
+    return this.page.getByRole("img", { name });
   }
-  prevButton(): Locator {
-    return this.page.locator("#prev2");
+
+  carouselButton(name: "Next" | "Previous"): Locator {
+    return this.carousel.getByRole("button", { name });
   }
 
   // Pagination actions
   async goToNextPage() {
-    await this.nextButton().click();
+    await this.nextButton.click();
   }
   async goToPreviousPage() {
-    await this.prevButton().click();
+    await this.prevButton.click();
   }
 }
