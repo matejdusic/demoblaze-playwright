@@ -1,0 +1,12 @@
+{
+  "Items": [
+    {
+      "id": "mock-monitor-1",
+      "title": "Mock Monitor Pro",
+      "price": 999,
+      "img": "imgs/1.jpg",
+      "cat": "monitor",
+      "desc": "A mocked monitor for testing"
+    }
+  ]
+}
