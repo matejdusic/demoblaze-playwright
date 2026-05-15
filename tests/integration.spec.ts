@@ -1,6 +1,11 @@
 import { test, expect } from "../fixtures/pageFixtures";
 import { addProductToCart } from "../utils/cartHelpers";
 
+// Integration tests use an anonymous session — they test API request/response
+// behaviour which works the same logged-in or out, and the cart tests here
+// need an isolated session so parallel runs don't interfere with each other.
+test.use({ storageState: { cookies: [], origins: [] } });
+
 test.describe("Integration Tests", () => {
   test("products API returns data", async ({ page, homePage }) => {
     const responsePromise = page.waitForResponse(

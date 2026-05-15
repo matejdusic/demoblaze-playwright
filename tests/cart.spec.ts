@@ -1,6 +1,10 @@
 import { test, expect } from "../fixtures/pageFixtures";
 import { addProductToCart } from "../utils/cartHelpers";
 
+// Cart tests use an anonymous (logged-out) session so each test gets an
+// isolated cart that isn't shared with other tests or persisted server-side.
+test.use({ storageState: { cookies: [], origins: [] } });
+
 test.describe("Cart Page", () => {
   //cart
   test("cart URL verification", async ({ homePage, cartPage, page }) => {
