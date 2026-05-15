@@ -1,5 +1,9 @@
 import { test, expect } from "../fixtures/pageFixtures";
 
+// Signup tests open the modal via the "Sign up" nav link, which only exists
+// when logged out. Must run without the stored auth session.
+test.use({ storageState: { cookies: [], origins: [] } });
+
 test.describe("Signup Modal", () => {
   test("signup modal is visible", async ({ homePage, signupPage }) => {
     await homePage.goto();

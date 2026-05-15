@@ -10,3 +10,4 @@ node_modules/
 # Local only — do not commit
 CLAUDE.md
 *.skill
+.env

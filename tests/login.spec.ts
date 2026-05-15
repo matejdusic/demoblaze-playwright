@@ -1,5 +1,9 @@
 import { test, expect } from "../fixtures/pageFixtures";
 
+// Login tests open the modal via the "Log in" nav link, which only exists
+// when logged out. Must run without the stored auth session.
+test.use({ storageState: { cookies: [], origins: [] } });
+
 test.describe("Login Modal", () => {
   test("login modal is visible", async ({ homePage, loginPage }) => {
     await homePage.goto();

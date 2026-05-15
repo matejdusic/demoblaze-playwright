@@ -1,5 +1,9 @@
 import { test, expect } from "../fixtures/pageFixtures";
 
+// Homepage tests check for logged-out nav items (Log in, Sign up),
+// so they must run without the stored auth session.
+test.use({ storageState: { cookies: [], origins: [] } });
+
 test.describe("Homepage", () => {
   test("homepage loads correctly", async ({ page, homePage }) => {
     await homePage.goto();
