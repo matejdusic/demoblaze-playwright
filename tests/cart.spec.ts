@@ -13,34 +13,16 @@ test.describe("Cart Page", () => {
     await expect(page).toHaveURL("https://www.demoblaze.com/cart.html");
   });
 
-  test("Cart page elements visibility", async ({
-    homePage,
-    cartPage,
-    page,
-  }) => {
+  test("Cart page elements visibility", async ({ homePage, cartPage }) => {
     await homePage.goto();
     await cartPage.open();
-    await expect
-      .soft(page.getByRole("heading", { name: "Products" }))
-      .toBeVisible();
-    await expect
-      .soft(page.getByRole("columnheader", { name: "Pic" }))
-      .toBeVisible();
-    await expect
-      .soft(page.getByRole("columnheader", { name: "Title" }))
-      .toBeVisible();
-    await expect
-      .soft(page.getByRole("columnheader", { name: "Price" }))
-      .toBeVisible();
-    await expect
-      .soft(page.getByRole("columnheader", { name: "x" }))
-      .toBeVisible();
-    await expect
-      .soft(page.getByRole("heading", { name: "Total" }))
-      .toBeVisible();
-    await expect(
-      page.getByRole("button", { name: "Place Order" }),
-    ).toBeVisible();
+    await expect.soft(cartPage.productsHeading).toBeVisible();
+    await expect.soft(cartPage.picColumn).toBeVisible();
+    await expect.soft(cartPage.titleColumn).toBeVisible();
+    await expect.soft(cartPage.priceColumn).toBeVisible();
+    await expect.soft(cartPage.deleteColumn).toBeVisible();
+    await expect.soft(cartPage.totalHeading).toBeVisible();
+    await expect(cartPage.placeOrderButton).toBeVisible();
   });
 
   test("Adding product to cart and verifying it appears in cart", async ({
