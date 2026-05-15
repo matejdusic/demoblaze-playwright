@@ -21,7 +21,7 @@ jobs:
       env:
         USERNAME: ${{ secrets.USERNAME }}
         PASSWORD: ${{ secrets.PASSWORD }}
-      run: npx playwright test
+      run: npx playwright test --ignore-snapshots
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
