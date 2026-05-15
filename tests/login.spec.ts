@@ -1,103 +1,67 @@
 import { test, expect } from "../fixtures/pageFixtures";
 
 test.describe("Login Modal", () => {
-  //login
-  test("login modal is visible", async ({ homePage, loginPage, page }) => {
+  test("login modal is visible", async ({ homePage, loginPage }) => {
     await homePage.goto();
     await loginPage.open();
-    await expect(page.getByText("Log in × Username: Password:")).toBeVisible();
+    await expect(loginPage.heading).toBeVisible();
   });
 
-  test("Username and password fields are visible", async ({
-    homePage,
-    loginPage,
-    page,
-  }) => {
+  test("Username and password fields are visible", async ({ homePage, loginPage }) => {
     await homePage.goto();
     await loginPage.open();
-    await expect.soft(page.locator("#loginusername")).toBeVisible();
-    await expect(page.locator("#loginpassword")).toBeVisible();
+    await expect.soft(loginPage.usernameInput).toBeVisible();
+    await expect(loginPage.passwordInput).toBeVisible();
   });
 
-  test("Log in button is visible", async ({ homePage, loginPage, page }) => {
+  test("Log in button is visible", async ({ homePage, loginPage }) => {
     await homePage.goto();
     await loginPage.open();
-    await expect(page.getByRole("button", { name: "Log in" })).toBeVisible();
+    await expect(loginPage.loginButton).toBeVisible();
   });
 
-  test("close button functionality", async ({ homePage, loginPage, page }) => {
+  test("close button functionality", async ({ homePage, loginPage }) => {
     await homePage.goto();
     await loginPage.open();
-    await page.getByLabel("Log in").getByText("Close").click();
-    await expect(
-      page.getByRole("heading", { name: "Log in" }),
-    ).not.toBeVisible();
+    await loginPage.closeButton.click();
+    await expect(loginPage.heading).not.toBeVisible();
   });
 
-  test("close button functionality with X", async ({
-    homePage,
-    loginPage,
-    page,
-  }) => {
+  test("close button functionality with X", async ({ homePage, loginPage }) => {
     await homePage.goto();
     await loginPage.open();
-    await page
-      .getByRole("dialog", { name: "Log in" })
-      .getByLabel("Close")
-      .click();
-    await expect(
-      page.getByRole("heading", { name: "Log in" }),
-    ).not.toBeVisible();
+    await loginPage.closeX.click();
+    await expect(loginPage.heading).not.toBeVisible();
   });
 
-  test("empty login form validation", async ({ homePage, loginPage, page }) => {
+  test("empty login form validation", async ({ page, homePage, loginPage }) => {
     await homePage.goto();
     await loginPage.open();
     page.on("dialog", async (dialog) => {
-      expect(dialog.message()).toContain(
-        "Please fill out Username and Password.",
-      );
+      expect(dialog.message()).toContain("Please fill out Username and Password.");
       await dialog.accept();
     });
-    await page.getByRole("button", { name: "Log in" }).click();
+    await loginPage.loginButton.click();
   });
 
-  test("invalid login form validation", async ({
-    homePage,
-    loginPage,
-    page,
-  }) => {
+  test("invalid login form validation", async ({ page, homePage, loginPage }) => {
     await homePage.goto();
     await loginPage.open();
-    await page.locator("#loginusername").fill("invalidUser");
-    await page
-      .locator("#loginpassword")
-      .fill("nemasansedajenekoovostaviozapassword12345");
+    await loginPage.usernameInput.fill("invalidUser");
+    await loginPage.passwordInput.fill("nemasansedajenekoovostaviozapassword12345");
     page.on("dialog", async (dialog) => {
       expect(dialog.message()).toContain("User does not exist.");
       await dialog.accept();
     });
-    await page.getByRole("button", { name: "Log in" }).click();
+    await loginPage.loginButton.click();
   });
 
-  test("valid login form validation", async ({
-    homePage,
-    loginPage,
-    page,
-  }) => {
+  test("valid login form validation", async ({ homePage, loginPage }) => {
     await homePage.goto();
     await loginPage.open();
-    await page.locator("#loginusername").fill("mdusic");
-    await page.locator("#loginpassword").fill("Test111?");
-    await page.getByRole("button", { name: "Log in" }).click();
-    await expect
-      .soft(page.getByRole("button", { name: "Log in" }))
-      .not.toBeVisible();
-    await expect
-      .soft(page.getByRole("link", { name: "Log out" }))
-      .toBeVisible();
-    await expect(
-      page.getByRole("link", { name: "Welcome mdusic" }),
-    ).toBeVisible();
+    await loginPage.login("mdusic", "Test111?");
+    await expect.soft(loginPage.loginButton).not.toBeVisible();
+    await expect.soft(loginPage.logoutLink).toBeVisible();
+    await expect(loginPage.loggedInUser).toBeVisible();
   });
 });

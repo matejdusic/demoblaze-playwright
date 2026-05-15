@@ -1,78 +1,39 @@
 import { test, expect } from "../fixtures/pageFixtures";
 
 test.describe("Contact Modal", () => {
-  //contact form visibility
-  test("contact form is visible", async ({ homePage, contactPage, page }) => {
+  test("contact form is visible", async ({ homePage, contactPage }) => {
     await homePage.goto();
     await contactPage.open();
-    await expect
-      .soft(page.getByRole("heading", { name: "New message" }))
-      .toBeVisible();
-    await expect.soft(page.locator("#recipient-email")).toBeVisible();
-    await expect
-      .soft(
-        page.getByRole("textbox", {
-          name: "Contact Email: Contact Name:",
-        }),
-      )
-      .toBeVisible();
-    await expect
-      .soft(page.getByRole("textbox", { name: "Message:" }))
-      .toBeVisible();
-    await expect
-      .soft(page.getByLabel("New message").getByText("Close"))
-      .toBeVisible();
-    await expect
-      .soft(page.getByRole("button", { name: "Send message" }))
-      .toBeVisible();
-    await expect(
-      page.getByRole("dialog", { name: "New message" }).getByLabel("Close"),
-    ).toBeVisible();
+    await expect.soft(contactPage.heading).toBeVisible();
+    await expect.soft(contactPage.emailInput).toBeVisible();
+    await expect.soft(contactPage.nameInput).toBeVisible();
+    await expect.soft(contactPage.messageInput).toBeVisible();
+    await expect.soft(contactPage.closeButton).toBeVisible();
+    await expect.soft(contactPage.sendButton).toBeVisible();
+    await expect(contactPage.closeX).toBeVisible();
   });
 
-  test("contact form validation", async ({ homePage, contactPage, page }) => {
+  test("contact form validation", async ({ page, homePage, contactPage }) => {
     await homePage.goto();
     await contactPage.open();
-    await page.locator("#recipient-email").fill("test@testimus.com");
-    await page
-      .getByRole("textbox", { name: "Contact Email: Contact Name:" })
-      .fill("Test User");
-    await page
-      .getByRole("textbox", { name: "Message:" })
-      .fill("This is a test message.");
     page.on("dialog", async (dialog) => {
       expect(dialog.message()).toContain("Thanks for the message!!");
       await dialog.accept();
     });
-    await page.getByRole("button", { name: "Send message" }).click();
+    await contactPage.fillAndSend("test@testimus.com", "Test User", "This is a test message.");
   });
 
-  test("close button functionality", async ({
-    homePage,
-    contactPage,
-    page,
-  }) => {
+  test("close button functionality", async ({ homePage, contactPage }) => {
     await homePage.goto();
     await contactPage.open();
-    await page.getByLabel("New message").getByText("Close").click();
-    await expect(
-      page.getByRole("heading", { name: "New message" }),
-    ).not.toBeVisible();
+    await contactPage.closeButton.click();
+    await expect(contactPage.heading).not.toBeVisible();
   });
 
-  test("close button functionality with X", async ({
-    homePage,
-    contactPage,
-    page,
-  }) => {
+  test("close button functionality with X", async ({ homePage, contactPage }) => {
     await homePage.goto();
     await contactPage.open();
-    await page
-      .getByRole("dialog", { name: "New message" })
-      .getByLabel("Close")
-      .click();
-    await expect(
-      page.getByRole("heading", { name: "New message" }),
-    ).not.toBeVisible();
+    await contactPage.closeX.click();
+    await expect(contactPage.heading).not.toBeVisible();
   });
 });
